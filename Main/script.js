@@ -129,11 +129,9 @@ document.addEventListener('keydown', (event) => {
     } else if (key === 'Enter' || key === '=') {
         calculate();
     } else if (key === 'Backspace' || key === 'Delete') {
-        // Implement backspace functionality here if needed
-        // For example:
-        // currentInput = currentInput.slice(0, -1);
-        // if (currentInput === '') currentInput = '0';
-        // updateDisplay();
+        currentInput = currentInput.slice(0, -1);
+        if (currentInput === '') currentInput = '0';
+        updateDisplay();
     } else if (key === 'c' || key === 'C') {
         clearCalculator();
     }
