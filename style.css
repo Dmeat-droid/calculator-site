@@ -1,0 +1,111 @@
+/* Custom styles for the calculator */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2f5; /* Light gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+    margin: 0;
+}
+
+.calculator {
+    background-color: #ffffff; /* White background for the calculator */
+    border-radius: 1.5rem; /* More rounded corners */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 320px; /* Max width for desktop view */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Gap between rows */
+}
+
+.display {
+    background-color: #2d3748; /* Darker background for display */
+    color: #ffffff;
+    font-size: 2.5rem; /* Larger font size */
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem; /* Rounded display */
+    text-align: right;
+    margin-bottom: 1rem;
+    min-height: 4rem; /* Ensure display has a minimum height */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden; /* Hide overflow text */
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 0.75rem; /* Gap between buttons */
+}
+
+.button {
+    background-color: #e2e8f0; /* Light gray for buttons */
+    color: #2d3748; /* Dark text for buttons */
+    font-size: 1.5rem;
+    padding: 1rem;
+    border-radius: 0.75rem; /* Rounded buttons */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none; /* Prevent text selection */
+}
+
+.button:hover {
+    background-color: #cbd5e0; /* Darker on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.button:active {
+    transform: translateY(0); /* Press effect */
+}
+
+.operator {
+    background-color: #4299e1; /* Blue for operators */
+    color: #ffffff;
+}
+
+.operator:hover {
+    background-color: #3182ce; /* Darker blue on hover */
+}
+
+.equals {
+    background-color: #38a169; /* Green for equals */
+    color: #ffffff;
+    grid-column: span 2; /* Span two columns */
+}
+
+.equals:hover {
+    background-color: #2f855a; /* Darker green on hover */
+}
+
+.clear {
+    background-color: #e53e3e; /* Red for clear */
+    color: #ffffff;
+}
+
+.clear:hover {
+    background-color: #c53030; /* Darker red on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+    .calculator {
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+    .display {
+        font-size: 2rem;
+        padding: 0.75rem 1rem;
+    }
+    .button {
+        font-size: 1.25rem;
+        padding: 0.75rem;
+    }
+}
