@@ -1,97 +1,153 @@
 /* Custom styles for the calculator */
+:root {
+    --color-bg: #f0f2f5;
+    --color-container-bg: #ffffff;
+    --color-title: #2d3748;
+    --color-subtitle: #4a5568;
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-display-bg: #2d3748;
+    --color-display-text: #ffffff;
+    --color-button-bg: #e2e8f0;
+    --color-button-text: #2d3748;
+    --color-button-hover: #cbd5e0;
+    --color-operator-bg: #4299e1;
+    --color-operator-hover: #3182ce;
+    --color-equals-bg: #38a169;
+    --color-equals-hover: #2f855a;
+    --color-clear-bg: #e53e3e;
+    --color-clear-hover: #c53030;
+    --color-footer: #4a5568;
+}
+
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f0f2f5; /* Light gray background */
+    background-color: var(--color-bg);
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Full viewport height */
+    min-height: 100vh;
     margin: 0;
 }
 
-.calculator {
-    background-color: #ffffff; /* White background for the calculator */
-    border-radius: 1.5rem; /* More rounded corners */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft shadow */
-    padding: 1.5rem;
-    width: 100%;
-    max-width: 320px; /* Max width for desktop view */
+.container {
+    text-align: center;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem; /* Gap between rows */
+    align-items: center;
+    justify-content: center;
+}
+
+h1.title {
+    font-size: 2.5rem;
+    color: var(--color-title);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+p.subtitle {
+    font-size: 1.25rem;
+    color: var(--color-subtitle);
+    margin-bottom: 1.5rem;
+}
+
+h1.title, p.subtitle {
+    text-align: center;
+}
+
+.calculator {
+    background-color: var(--color-container-bg);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 25px var(--color-shadow);
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 .display {
-    background-color: #2d3748; /* Darker background for display */
-    color: #ffffff;
-    font-size: 2.5rem; /* Larger font size */
+    background-color: var(--color-display-bg);
+    color: var(--color-display-text);
+    font-size: 2.5rem;
     padding: 1rem 1.25rem;
-    border-radius: 0.75rem; /* Rounded display */
+    border-radius: 1.5rem 1.5rem 0 0;
     text-align: right;
-    margin-bottom: 1rem;
-    min-height: 4rem; /* Ensure display has a minimum height */
+    margin-bottom: 0.5rem;
+    min-height: 4rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    overflow: hidden; /* Hide overflow text */
-    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden;
 }
 
 .buttons-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    gap: 0.75rem; /* Gap between buttons */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin: 0rem 1.5rem 1.5rem 1.5rem;
 }
 
 .button {
-    background-color: #e2e8f0; /* Light gray for buttons */
-    color: #2d3748; /* Dark text for buttons */
+    background-color: var(--color-button-bg);
+    color: var(--color-button-text);
     font-size: 1.5rem;
     padding: 1rem;
-    border-radius: 0.75rem; /* Rounded buttons */
+    border-radius: 0.75rem;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
     display: flex;
     justify-content: center;
     align-items: center;
-    user-select: none; /* Prevent text selection */
+    user-select: none;
 }
 
 .button:hover {
-    background-color: #cbd5e0; /* Darker on hover */
-    transform: translateY(-2px); /* Slight lift on hover */
+    background-color: var(--color-button-hover);
+    transform: translateY(-2px);
 }
 
 .button:active {
-    transform: translateY(0); /* Press effect */
+    transform: translateY(0);
 }
 
 .operator {
-    background-color: #4299e1; /* Blue for operators */
-    color: #ffffff;
+    background-color: var(--color-operator-bg);
+    color: var(--color-display-text);
 }
 
 .operator:hover {
-    background-color: #3182ce; /* Darker blue on hover */
+    background-color: var(--color-operator-hover);
 }
 
 .equals {
-    background-color: #38a169; /* Green for equals */
-    color: #ffffff;
-    grid-column: span 2; /* Span two columns */
+    background-color: var(--color-equals-bg);
+    color: var(--color-display-text);
+    grid-column: span 2;
 }
 
 .equals:hover {
-    background-color: #2f855a; /* Darker green on hover */
+    background-color: var(--color-equals-hover);
 }
 
 .clear {
-    background-color: #e53e3e; /* Red for clear */
-    color: #ffffff;
+    background-color: var(--color-clear-bg);
+    color: var(--color-display-text);
 }
 
 .clear:hover {
-    background-color: #c53030; /* Darker red on hover */
+    background-color: var(--color-clear-hover);
+}
+
+.footer {
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--color-footer);
+}
+.footer a {
+    color: var(--color-footer);
+    text-decoration: none;
+    font-weight: 600;
 }
 
 /* Responsive adjustments */
@@ -108,4 +164,18 @@ body {
         font-size: 1.25rem;
         padding: 0.75rem;
     }
+}
+
+/* Adjust display font size dynamically */
+.display {
+    font-size: 2.5rem;
+    white-space: nowrap; /* Prevent text from wrapping by default */
+}
+
+.display.small-text {
+    font-size: 2rem; /* Smaller font size when text overflows */
+}
+
+.display.smaller-text {
+    font-size: 1.5rem; /* Even smaller font size for extreme overflows */
 }

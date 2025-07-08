@@ -9,6 +9,23 @@ let resetDisplay = false;
 // Function to update the display
 function updateDisplay() {
     display.textContent = currentInput;
+
+    // Dynamic font size adjustment
+    if (display.scrollWidth > display.clientWidth) {
+        if (display.classList.contains('small-text')) {
+            display.classList.remove('small-text');
+            display.classList.add('smaller-text');
+        }
+        else if (display.classList.contains('smaller-text')) {
+            // Do nothing, already at smallest size
+        }
+        else {
+            display.classList.add('small-text');
+        }
+    }
+    else {
+        display.classList.remove('small-text', 'smaller-text');
+    }
 }
 
 // Function to handle number and decimal button clicks
@@ -100,3 +117,24 @@ buttons.forEach(button => {
 
 // Initialize display on load
 updateDisplay();
+
+// Add keyboard support
+document.addEventListener('keydown', (event) => {
+    const key = event.key;
+    
+    if (key >= '0' && key <= '9' || key === '.') {
+        handleNumber(key);
+    } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+        handleOperator(key);
+    } else if (key === 'Enter' || key === '=') {
+        calculate();
+    } else if (key === 'Backspace' || key === 'Delete') {
+        // Implement backspace functionality here if needed
+        // For example:
+        // currentInput = currentInput.slice(0, -1);
+        // if (currentInput === '') currentInput = '0';
+        // updateDisplay();
+    } else if (key === 'c' || key === 'C') {
+        clearCalculator();
+    }
+});

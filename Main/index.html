@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awisy's Calculator</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>WebCalc</title>
     <!-- Link to external CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body> 
-    <div class="header">
-        <h1 class="title">Awisy's Calculator</h1>
-        <p class="subtitle">
-          A simple and elegant calculator built with HTML, CSS, and JavaScript.
-        </p>
-    </div>
-    <div class="calculator">
+    <div class="container">
+        <div class="header">
+            <h1 class="title">WebCalc</h1>
+            <p class="subtitle">
+              A simple and elegant calculator built with HTML, CSS, and JavaScript.
+            </p>
+        </div>
+        <div class="calculator">
         <!-- Calculator Display -->
         <div class="display" id="display">0</div>
 
@@ -45,7 +44,12 @@
             <div class="button" data-value="0">0</div>
         </div>
     </div>
-
+    <div class="footer">
+        <p class="footer-text">
+            Made with &hearts; by <a href="https://github.com/Dmeat-droid">Dmeat-droid</a>
+        </p>
+    </div>
+    </div>
     <!-- Link to external JavaScript file -->
     <script src="script.js"></script>
 </body>
