@@ -1,138 +1,204 @@
-const display = document.getElementById('display');
-const buttons = document.querySelectorAll('.button');
+// Mendapatkan elemen-elemen DOM
+const calculator = document.querySelector('.calculator');
+const calculatorScreen = document.querySelector('.calculator-screen');
+const calculatorHistory = document.querySelector('.calculator-history');
+const keys = calculator.querySelector('.calculator-keys');
 
-let currentInput = '0';
-let operator = null;
-let previousInput = '';
-let resetDisplay = false;
+// --- Variabel State Kalkulator ---
+let currentInput = '0'; // Angka yang sedang ditampilkan di layar utama
+let previousInput = ''; // Angka pertama dalam operasi
+let operator = null; // Operator yang dipilih (+, -, *, /)
+let waitingForSecondOperand = false; // Flag: true jika kalkulator menunggu angka kedua
+let hasCalculated = false; // Flag: true setelah tombol '=' ditekan
 
-// Function to update the display
-function updateDisplay() {
-    display.textContent = currentInput;
+/**
+ * Memperbarui tampilan layar utama kalkulator.
+ */
+function updateScreen() {
+    calculatorScreen.value = currentInput;
+}
 
-    // Dynamic font size adjustment
-    if (display.scrollWidth > display.clientWidth) {
-        if (display.classList.contains('small-text')) {
-            display.classList.remove('small-text');
-            display.classList.add('smaller-text');
+/**
+ * Memperbarui tampilan riwayat operasi.
+ * @param {string} historyText - Teks riwayat yang akan ditampilkan.
+ */
+function updateHistory(historyText) {
+    calculatorHistory.textContent = historyText;
+}
+
+/**
+ * Menambahkan digit ke input saat ini.
+ * @param {string} digit - Digit yang ditekan.
+ */
+function inputDigit(digit) {
+    if (waitingForSecondOperand) {
+        // Jika sedang menunggu angka kedua, ganti input saat ini dengan digit baru
+        currentInput = digit;
+        waitingForSecondOperand = false;
+        hasCalculated = false; // Reset flag setelah input digit baru
+    } else if (hasCalculated) {
+        // Jika sebelumnya sudah ada hasil perhitungan, mulai input baru
+        currentInput = digit;
+        hasCalculated = false;
+        previousInput = ''; // Reset previousInput
+        operator = null; // Reset operator
+        updateHistory(''); // Hapus riwayat
+    } else {
+        // Jika input saat ini adalah '0', ganti dengan digit baru.
+        // Jika tidak, tambahkan digit ke input saat ini.
+        currentInput = currentInput === '0' ? digit : currentInput + digit;
+    }
+}
+
+/**
+ * Menambahkan titik desimal ke input saat ini.
+ */
+function inputDecimal() {
+    if (waitingForSecondOperand) {
+        // Jika sedang menunggu angka kedua dan langsung menekan titik, mulai dengan "0."
+        currentInput = '0.';
+        waitingForSecondOperand = false;
+        hasCalculated = false;
+        return;
+    }
+    if (hasCalculated) { // Perbaikan typo: hasCalcululated menjadi hasCalculated
+        // Jika sebelumnya sudah ada hasil perhitungan, mulai input baru dengan "0."
+        currentInput = '0.';
+        hasCalculated = false;
+        previousInput = '';
+        operator = null;
+        updateHistory('');
+        return;
+    }
+    // Hanya tambahkan titik jika belum ada titik di input saat ini
+    if (!currentInput.includes('.')) {
+        currentInput += '.';
+    }
+}
+
+/**
+ * Menangani logika ketika tombol operator ditekan.
+ * @param {string} nextOperator - Operator yang ditekan (+, -, *, /).
+ */
+function handleOperator(nextOperator) {
+    const inputValue = parseFloat(currentInput);
+
+    // Jika sudah ada operator dan sedang menunggu angka kedua,
+    // berarti pengguna mengganti operator (misal: "5 + *" menjadi "5 *").
+    if (operator && waitingForSecondOperand) {
+        operator = nextOperator;
+        updateHistory(`${previousInput} ${operator}`); // Perbarui riwayat
+        return;
+    }
+
+    // Jika previousInput masih kosong (operasi pertama)
+    if (previousInput === '') {
+        previousInput = inputValue;
+    } else if (operator) {
+        // Jika ada operator yang menunggu dan previousInput sudah ada, lakukan perhitungan
+        const result = performCalculation(previousInput, inputValue, operator);
+        currentInput = String(parseFloat(result.toFixed(7))); // Batasi desimal dan konversi ke string
+        previousInput = result; // Hasil menjadi angka pertama untuk operasi berantai
+    }
+
+    waitingForSecondOperand = true; // Set flag untuk menunggu angka kedua
+    operator = nextOperator; // Simpan operator yang baru
+    hasCalculated = false; // Reset flag perhitungan
+    updateHistory(`${previousInput} ${operator}`); // Tampilkan riwayat operasi
+}
+
+/**
+ * Melakukan perhitungan berdasarkan operator.
+ * @param {number} firstOperand - Angka pertama.
+ * @param {number} secondOperand - Angka kedua.
+ * @param {string} operator - Operator (+, -, *, /).
+ * @returns {number|string} Hasil perhitungan, atau 'Error' jika pembagian dengan nol.
+ */
+function performCalculation(firstOperand, secondOperand, operator) {
+    if (operator === '+') return firstOperand + secondOperand;
+    if (operator === '-') return firstOperand - secondOperand;
+    if (operator === '*') return firstOperand * secondOperand;
+    if (operator === '/') {
+        if (secondOperand === 0) {
+            return 'Error'; // Menangani pembagian dengan nol
         }
-        else if (display.classList.contains('smaller-text')) {
-            // Do nothing, already at smallest size
+        return firstOperand / secondOperand;
+    }
+    return secondOperand; // Default, misal jika tidak ada operator yang valid
+}
+
+/**
+ * Mereset kalkulator ke kondisi awal.
+ */
+function resetCalculator() {
+    currentInput = '0';
+    previousInput = '';
+    operator = null;
+    waitingForSecondOperand = false;
+    hasCalculated = false;
+    updateHistory(''); // Hapus riwayat
+}
+
+// --- Event Listener untuk Klik Tombol ---
+keys.addEventListener('click', (event) => {
+    const { target } = event; // Mendapatkan elemen tombol yang diklik
+
+    // Pastikan yang diklik adalah tombol
+    if (!target.matches('button')) {
+        return;
+    }
+
+    // Logika berdasarkan jenis tombol
+    if (target.classList.contains('operator')) {
+        if (target.value === '=') {
+            // Logika untuk tombol '='
+            if (operator && !waitingForSecondOperand) { // Pastikan ada operasi dan angka kedua sudah dimasukkan
+                const inputValue = parseFloat(currentInput);
+                const result = performCalculation(previousInput, inputValue, operator);
+
+                if (result === 'Error') {
+                    currentInput = 'Error'; // Tampilkan pesan error
+                    updateHistory(''); // Hapus riwayat
+                } else {
+                    currentInput = String(parseFloat(result.toFixed(7))); // Batasi desimal
+                    updateHistory(`${previousInput} ${operator} ${inputValue} =`); // Tampilkan operasi lengkap
+                }
+
+                previousInput = ''; // Reset untuk operasi baru
+                operator = null; // Reset operator
+                waitingForSecondOperand = false;
+                hasCalculated = true; // Set flag bahwa perhitungan sudah selesai
+            }
+        } else {
+            // Logika untuk operator lain (+, -, *, /)
+            handleOperator(target.value);
         }
-        else {
-            display.classList.add('small-text');
+    } else if (target.classList.contains('decimal')) {
+        inputDecimal();
+    } else if (target.classList.contains('all-clear')) {
+        resetCalculator();
+    } else if (target.classList.contains('parenthesis')) { // Menangani tombol kurung
+        if (waitingForSecondOperand) {
+            currentInput = target.value;
+            waitingForSecondOperand = false;
+            hasCalculated = false;
+        } else if (hasCalculated) {
+            currentInput = target.value;
+            hasCalculated = false;
+            previousInput = '';
+            operator = null;
+            updateHistory('');
+        } else {
+            currentInput = currentInput === '0' ? target.value : currentInput + target.value;
         }
     }
     else {
-        display.classList.remove('small-text', 'smaller-text');
-    }
-}
-
-// Function to handle number and decimal button clicks
-function handleNumber(value) {
-    if (currentInput === '0' || resetDisplay) {
-        currentInput = value;
-        resetDisplay = false;
-    } else {
-        currentInput += value;
-    }
-    updateDisplay();
-}
-
-// Function to handle operator button clicks
-function handleOperator(nextOperator) {
-    if (operator && !resetDisplay) {
-        // If there's an existing operator and we're not resetting, calculate first
-        calculate();
-    }
-    previousInput = currentInput;
-    operator = nextOperator;
-    resetDisplay = true; // Prepare to clear display for next number
-}
-
-// Function to perform calculations
-function calculate() {
-    let result;
-    const prev = parseFloat(previousInput);
-    const current = parseFloat(currentInput);
-
-    if (isNaN(prev) || isNaN(current)) return; // Don't calculate if inputs are not numbers
-
-    switch (operator) {
-        case '+':
-            result = prev + current;
-            break;
-        case '-':
-            result = prev - current;
-            break;
-        case '*':
-            result = prev * current;
-            break;
-        case '/':
-            if (current === 0) {
-                display.textContent = 'Error: Div by 0';
-                currentInput = '0';
-                previousInput = '';
-                operator = null;
-                return; // Exit function to prevent further calculation
-            }
-            result = prev / current;
-            break;
-        default:
-            return; // No operator, do nothing
+        // Logika untuk tombol angka
+        inputDigit(target.value);
     }
 
-    currentInput = result.toString();
-    operator = null;
-    previousInput = '';
-    resetDisplay = true; // After calculation, next number should clear display
-    updateDisplay();
-}
-
-// Function to clear the calculator
-function clearCalculator() {
-    currentInput = '0';
-    operator = null;
-    previousInput = '';
-    resetDisplay = false;
-    updateDisplay();
-}
-
-// Add event listeners to all buttons
-buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        const value = button.dataset.value;
-
-        if (value >= '0' && value <= '9' || value === '.') {
-            handleNumber(value);
-        } else if (value === 'C') {
-            clearCalculator();
-        } else if (value === '=') {
-            calculate();
-        } else { // It's an operator
-            handleOperator(value);
-        }
-    });
+    updateScreen(); // Perbarui tampilan layar setelah setiap aksi
 });
 
-// Initialize display on load
-updateDisplay();
-
-// Add keyboard support
-document.addEventListener('keydown', (event) => {
-    const key = event.key;
-    
-    if (key >= '0' && key <= '9' || key === '.') {
-        handleNumber(key);
-    } else if (key === '+' || key === '-' || key === '*' || key === '/') {
-        handleOperator(key);
-    } else if (key === 'Enter' || key === '=') {
-        calculate();
-    } else if (key === 'Backspace' || key === 'Delete') {
-        currentInput = currentInput.slice(0, -1);
-        if (currentInput === '') currentInput = '0';
-        updateDisplay();
-    } else if (key === 'c' || key === 'C') {
-        clearCalculator();
-    }
-});
+// Inisialisasi tampilan awal saat halaman dimuat
+updateScreen();

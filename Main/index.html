@@ -4,53 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebCalc</title>
-    <!-- Link to external CSS file -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body> 
+<body>
     <div class="container">
         <div class="header">
-            <h1 class="title">WebCalc</h1>
-            <p class="subtitle">
-              A simple and elegant calculator built with HTML, CSS, and JavaScript.
-            </p>
+
         </div>
         <div class="calculator">
-        <!-- Calculator Display -->
-        <div class="display" id="display">0</div>
-
-        <!-- Calculator Buttons Grid -->
-        <div class="buttons-grid">
-            <div class="button clear" data-value="C">C</div>
-            <div class="button operator" data-value="/">&divide;</div>
-            <div class="button operator" data-value="*">&times;</div>
-            <div class="button operator" data-value="-">-</div>
-
-            <div class="button" data-value="7">7</div>
-            <div class="button" data-value="8">8</div>
-            <div class="button" data-value="9">9</div>
-            <div class="button operator" data-value="+">+</div>
-
-            <div class="button" data-value="4">4</div>
-            <div class="button" data-value="5">5</div>
-            <div class="button" data-value="6">6</div>
-            <div class="button" data-value=".">.</div>
-
-            <div class="button" data-value="1">1</div>
-            <div class="button" data-value="2">2</div>
-            <div class="button" data-value="3">3</div>
-            <div class="button equals" data-value="=">=</div>
-
-            <div class="button" data-value="0">0</div>
+            <div class="history"></div>
+            <input type="text" name="calculator-screen" value="0" id="">
+            <div class="keys"></div>
+        </div>
+        <div class="footer">
+            <p>&copy; 2023 WebCalc. All rights reserved.</p>
         </div>
     </div>
-    <div class="footer">
-        <p class="footer-text">
-            Made with &hearts; by <a href="https://github.com/Dmeat-droid">Dmeat-droid</a>
-        </p>
-    </div>
-    </div>
-    <!-- Link to external JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>

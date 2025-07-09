@@ -1,181 +1,166 @@
-/* Custom styles for the calculator */
-:root {
-    --color-bg: #f0f2f5;
-    --color-container-bg: #ffffff;
-    --color-title: #2d3748;
-    --color-subtitle: #4a5568;
-    --color-shadow: rgba(0, 0, 0, 0.1);
-    --color-display-bg: #2d3748;
-    --color-display-text: #ffffff;
-    --color-button-bg: #e2e8f0;
-    --color-button-text: #2d3748;
-    --color-button-hover: #cbd5e0;
-    --color-operator-bg: #4299e1;
-    --color-operator-hover: #3182ce;
-    --color-equals-bg: #38a169;
-    --color-equals-hover: #2f855a;
-    --color-clear-bg: #e53e3e;
-    --color-clear-hover: #c53030;
-    --color-footer: #4a5568;
+/* Reset CSS dasar dan pengaturan font */
+html {
+    font-size: 62.5%; /* 1rem = 10px untuk kemudahan perhitungan ukuran */
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--color-bg);
+    height: 100vh; /* Tinggi penuh viewport */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
+    background-color: #e0e0e0; /* Latar belakang halaman */
+    font-family: 'Inter', sans-serif; /* Menggunakan font Inter */
 }
 
-.container {
-    text-align: center;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-h1.title {
-    font-size: 2.5rem;
-    color: var(--color-title);
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-}
-
-p.subtitle {
-    font-size: 1.25rem;
-    color: var(--color-subtitle);
-    margin-bottom: 1.5rem;
-}
-
-h1.title, p.subtitle {
-    text-align: center;
-}
-
+/* Gaya untuk container kalkulator */
 .calculator {
-    background-color: var(--color-container-bg);
-    border-radius: 1.5rem;
-    box-shadow: 0 10px 25px var(--color-shadow);
+    border: 1px solid #ccc;
+    border-radius: 15px; /* Sudut membulat */
+    width: 320px; /* Lebar kalkulator */
+    background-color: #2a2a2a; /* Latar belakang gelap kalkulator */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3); /* Bayangan untuk efek kedalaman */
+    overflow: hidden; /* Memastikan sudut membulat diterapkan dengan benar */
+    padding-bottom: 10px; /* Sedikit padding di bawah tombol */
+}
+
+/* Gaya untuk layar kalkulator */
+.calculator-screen {
     width: 100%;
-    max-width: 320px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.display {
-    background-color: var(--color-display-bg);
-    color: var(--color-display-text);
-    font-size: 2.5rem;
-    padding: 1rem 1.25rem;
-    border-radius: 1.5rem 1.5rem 0 0;
+    height: 100px; /* Tinggi layar */
+    background-color: #1a1a1a; /* Latar belakang layar lebih gelap */
+    color: #fff; /* Warna teks putih */
     text-align: right;
-    margin-bottom: 0.5rem;
-    min-height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    overflow: hidden;
+    padding: 0 20px;
+    font-size: 4.5rem; /* Ukuran font besar untuk hasil */
+    border: none;
+    outline: none;
+    border-radius: 15px 15px 0 0; /* Sudut membulat hanya di bagian atas */
+    box-sizing: border-box;
+    pointer-events: none; /* Mencegah input langsung dari keyboard */
+    display: flex; /* Menggunakan flexbox untuk penempatan teks */
+    align-items: flex-end; /* Menempatkan teks di bagian bawah */
+    justify-content: flex-end; /* Menempatkan teks di kanan */
+    padding-bottom: 10px; /* Padding bawah untuk teks */
 }
 
-.buttons-grid {
+/* Gaya untuk riwayat operasi */
+.calculator-history {
+    width: 100%;
+    height: 30px; /* Tinggi area riwayat */
+    background-color: #1a1a1a; /* Sama dengan layar utama */
+    color: rgba(255, 255, 255, 0.6); /* Warna teks putih dengan opasitas rendah */
+    text-align: right;
+    padding: 0 20px;
+    font-size: 1.8rem; /* Ukuran font lebih kecil */
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end; /* Menempatkan teks di bagian bawah */
+    justify-content: flex-end; /* Menempatkan teks di kanan */
+    padding-bottom: 5px;
+}
+
+/* Gaya untuk container tombol */
+.calculator-keys {
     display: grid;
+    /* Grid 4 kolom */
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.75rem;
-    margin: 0rem 1.5rem 1.5rem 1.5rem;
+    gap: 10px; /* Jarak antar tombol */
+    padding: 20px;
 }
 
-.button {
-    background-color: var(--color-button-bg);
-    color: var(--color-button-text);
-    font-size: 1.5rem;
-    padding: 1rem;
-    border-radius: 0.75rem;
+/* Gaya dasar untuk semua tombol */
+button {
+    height: 60px; /* Tinggi tombol */
+    background-color: #505050; /* Abu-abu gelap untuk tombol angka */
+    border: none; /* Tanpa border */
+    border-radius: 10px; /* Sudut membulat untuk tombol */
+    font-size: 2.5rem; /* Ukuran font tombol */
+    color: #fff; /* Warna teks tombol putih */
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-out; /* Transisi halus */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Bayangan tombol */
 }
 
-.button:hover {
-    background-color: var(--color-button-hover);
-    transform: translateY(-2px);
+button:hover {
+    background-color: #6a6a6a; /* Warna hover untuk tombol angka */
+    transform: translateY(-1px); /* Efek sedikit terangkat saat hover */
 }
 
-.button:active {
-    transform: translateY(0);
+button:active {
+    background-color: #404040; /* Warna saat ditekan */
+    transform: translateY(0); /* Kembali ke posisi semula */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Bayangan lebih kecil saat ditekan */
 }
 
+/* Gaya khusus untuk tombol operator */
 .operator {
-    background-color: var(--color-operator-bg);
-    color: var(--color-display-text);
+    background-color: #ff9500; /* Oranye untuk operator */
 }
 
 .operator:hover {
-    background-color: var(--color-operator-hover);
+    background-color: #e68a00; /* Oranye lebih gelap saat hover */
 }
 
-.equals {
-    background-color: var(--color-equals-bg);
-    color: var(--color-display-text);
-    grid-column: span 2;
+.operator:active {
+    background-color: #cc7a00; /* Oranye lebih gelap saat ditekan */
 }
 
-.equals:hover {
-    background-color: var(--color-equals-hover);
+/* Gaya khusus untuk tombol 'AC' */
+.all-clear {
+    background-color: #d9534f; /* Merah untuk AC */
+    /* Diubah dari span 2 menjadi span 1 agar sesuai layout */
+    grid-column: span 1;
 }
 
-.clear {
-    background-color: var(--color-clear-bg);
-    color: var(--color-display-text);
+.all-clear:hover {
+    background-color: #c9302c; /* Merah lebih gelap saat hover */
 }
 
-.clear:hover {
-    background-color: var(--color-clear-hover);
+.all-clear:active {
+    background-color: #b02a2a; /* Merah lebih gelap saat ditekan */
 }
 
-.footer {
-    margin-top: 1.5rem;
-    font-size: 0.875rem;
-    color: var(--color-footer);
-}
-.footer a {
-    color: var(--color-footer);
-    text-decoration: none;
-    font-weight: 600;
+/* Gaya khusus untuk tombol '0' */
+.zero-button {
+    grid-column: span 2; /* Mengambil 2 kolom */
 }
 
-/* Responsive adjustments */
-@media (max-width: 400px) {
-    .calculator {
-        padding: 1rem;
-        border-radius: 1rem;
-    }
-    .display {
-        font-size: 2rem;
-        padding: 0.75rem 1rem;
-    }
-    .button {
-        font-size: 1.25rem;
-        padding: 0.75rem;
-    }
+/* Gaya khusus untuk tombol '=' */
+.equal-sign {
+    background-color: #007aff; /* Biru untuk '=' */
+    /* Diubah dari span 2 menjadi span 1 agar sesuai layout */
+    grid-column: span 1;
 }
 
-/* Adjust display font size dynamically */
-.display {
-    font-size: 2.5rem;
-    white-space: nowrap; /* Prevent text from wrapping by default */
+.equal-sign:hover {
+    background-color: #006ee6; /* Biru lebih gelap saat hover */
 }
 
-.display.small-text {
-    font-size: 2rem; /* Smaller font size when text overflows */
+.equal-sign:active {
+    background-color: #005bb3; /* Biru lebih gelap saat ditekan */
 }
 
-.display.smaller-text {
-    font-size: 1.5rem; /* Even smaller font size for extreme overflows */
+/* Gaya untuk tombol desimal */
+.decimal {
+    background-color: #505050; /* Sama dengan tombol angka */
+}
+
+/* Gaya baru untuk tombol kurung */
+.parenthesis {
+    background-color: #505050; /* Sama dengan tombol angka */
+}
+
+.parenthesis:hover {
+    background-color: #6a6a6a;
+}
+
+.parenthesis:active {
+    background-color: #404040;
 }
