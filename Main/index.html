@@ -4,21 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebCalc</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="header">
-
+            <h1>WebCalc</h1>
+            <p>A simple calculator for basic arithmetic operations.</p>
+            <p>Click on the buttons to perform calculations.</p>
         </div>
         <div class="calculator">
-            <div class="history"></div>
-            <input type="text" name="calculator-screen" value="0" id="">
-            <div class="keys"></div>
+            <h2>WebCalc</h2>
+            <input type="text" name="calculator-screen" value="0" id="calculator-screen">
+            <div class="calculator-keys">
+                <!-- first row  -->
+                <button type="button" class="all-clear">AC</button>
+                <button type="button" class="parenthesis" value="(">(</button>
+                <button type="button" class="parenthesis" value=")">)</button>
+                <button type="button" class="operator" value="+">+</button>
+
+                <!-- second row -->
+                <button type="button" class="number" value="7">7</button>
+                <button type="button" class="number" value="8">8</button>
+                <button type="button" class="number" value="9">9</button>
+                <button type="button" class="operator" value="-">-</button>
+
+                <!-- third row -->
+                <button type="button" class="number" value="4">4</button>
+                <button type="button" class="number" value="5">5</button>
+                <button type="button" class="number" value="6">6</button>
+                <button type="button" class="operator" value="*">&times;</button>
+
+                <!-- fourth row -->
+                <button type="button" class="number" value="1">1</button>
+                <button type="button" class="number" value="2">2</button>
+                <button type="button" class="number" value="3">3</button>
+                <button type="button" class="operator" value="/">&divide;</button>
+
+                <!-- fifth row -->  
+                <button type="button" class="number" value="0">0</button>
+                <button type="button" class="decimal" value=".">.</button>
+                <button type="button" class="operator" value="=">=</button>
+            </div>
         </div>
-        <div class="footer">
-            <p>&copy; 2023 WebCalc. All rights reserved.</p>
-        </div>
+    </div>
+    <div class="footer">
+            <p>Made with &hearts; by dmeat-droid</p>
     </div>
     <script src="script.js"></script>
 </body>

@@ -1,166 +1,121 @@
-/* Reset CSS dasar dan pengaturan font */
 html {
-    font-size: 62.5%; /* 1rem = 10px untuk kemudahan perhitungan ukuran */
+    font-size: 62.5%;
     box-sizing: border-box;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: inherit;
 }
 
 body {
-    height: 100vh; /* Tinggi penuh viewport */
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 2000px;
+    margin: 5rem auto;
+    padding: 2rem;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    background-color: #e0e0e0; /* Latar belakang halaman */
-    font-family: 'Inter', sans-serif; /* Menggunakan font Inter */
+    justify-content: center;
+    text-align: center;
 }
 
-/* Gaya untuk container kalkulator */
+.header {
+    text-align: right;
+    margin: 2rem;
+}
+
 .calculator {
+    background-color: #fff;
     border: 1px solid #ccc;
-    border-radius: 15px; /* Sudut membulat */
-    width: 320px; /* Lebar kalkulator */
-    background-color: #2a2a2a; /* Latar belakang gelap kalkulator */
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3); /* Bayangan untuk efek kedalaman */
-    overflow: hidden; /* Memastikan sudut membulat diterapkan dengan benar */
-    padding-bottom: 10px; /* Sedikit padding di bawah tombol */
-}
-
-/* Gaya untuk layar kalkulator */
-.calculator-screen {
-    width: 100%;
-    height: 100px; /* Tinggi layar */
-    background-color: #1a1a1a; /* Latar belakang layar lebih gelap */
-    color: #fff; /* Warna teks putih */
-    text-align: right;
-    padding: 0 20px;
-    font-size: 4.5rem; /* Ukuran font besar untuk hasil */
-    border: none;
-    outline: none;
-    border-radius: 15px 15px 0 0; /* Sudut membulat hanya di bagian atas */
-    box-sizing: border-box;
-    pointer-events: none; /* Mencegah input langsung dari keyboard */
-    display: flex; /* Menggunakan flexbox untuk penempatan teks */
-    align-items: flex-end; /* Menempatkan teks di bagian bawah */
-    justify-content: flex-end; /* Menempatkan teks di kanan */
-    padding-bottom: 10px; /* Padding bawah untuk teks */
-}
-
-/* Gaya untuk riwayat operasi */
-.calculator-history {
-    width: 100%;
-    height: 30px; /* Tinggi area riwayat */
-    background-color: #1a1a1a; /* Sama dengan layar utama */
-    color: rgba(255, 255, 255, 0.6); /* Warna teks putih dengan opasitas rendah */
-    text-align: right;
-    padding: 0 20px;
-    font-size: 1.8rem; /* Ukuran font lebih kecil */
-    box-sizing: border-box;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 0.5rem;
     display: flex;
-    align-items: flex-end; /* Menempatkan teks di bagian bawah */
-    justify-content: flex-end; /* Menempatkan teks di kanan */
-    padding-bottom: 5px;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 300px;
 }
 
-/* Gaya untuk container tombol */
+.calculator h2 {
+    text-align: left;
+    font-size: 2rem;
+    margin: 0;
+    margin-left: 10px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: .7rem;
+    font-size: 30px;
+    text-align: right;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    height: 50px;
+}
+
 .calculator-keys {
     display: grid;
-    /* Grid 4 kolom */
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px; /* Jarak antar tombol */
-    padding: 20px;
+    grid-auto-flow: row;
+    gap: 0.5rem;
 }
 
-/* Gaya dasar untuk semua tombol */
 button {
-    height: 60px; /* Tinggi tombol */
-    background-color: #505050; /* Abu-abu gelap untuk tombol angka */
-    border: none; /* Tanpa border */
-    border-radius: 10px; /* Sudut membulat untuk tombol */
-    font-size: 2.5rem; /* Ukuran font tombol */
-    color: #fff; /* Warna teks tombol putih */
+    width: 100%;
+    padding: 0.2rem;
+    font-size: 1.6rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.1s ease-out; /* Transisi halus */
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Bayangan tombol */
+    width: auto;
+    height: 60px;
 }
 
 button:hover {
-    background-color: #6a6a6a; /* Warna hover untuk tombol angka */
-    transform: translateY(-1px); /* Efek sedikit terangkat saat hover */
+    background-color: #0056b3;
 }
 
-button:active {
-    background-color: #404040; /* Warna saat ditekan */
-    transform: translateY(0); /* Kembali ke posisi semula */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Bayangan lebih kecil saat ditekan */
-}
-
-/* Gaya khusus untuk tombol operator */
-.operator {
-    background-color: #ff9500; /* Oranye untuk operator */
-}
-
-.operator:hover {
-    background-color: #e68a00; /* Oranye lebih gelap saat hover */
-}
-
-.operator:active {
-    background-color: #cc7a00; /* Oranye lebih gelap saat ditekan */
-}
-
-/* Gaya khusus untuk tombol 'AC' */
 .all-clear {
-    background-color: #d9534f; /* Merah untuk AC */
-    /* Diubah dari span 2 menjadi span 1 agar sesuai layout */
-    grid-column: span 1;
+    background-color: #dc3545;
 }
 
 .all-clear:hover {
-    background-color: #c9302c; /* Merah lebih gelap saat hover */
+    background-color: #c82333;
 }
 
-.all-clear:active {
-    background-color: #b02a2a; /* Merah lebih gelap saat ditekan */
+button.operator[value="="]{
+    background-color: #28a745;
+    grid-column: span 2; /* Make the equals button span two columns */
 }
 
-/* Gaya khusus untuk tombol '0' */
-.zero-button {
-    grid-column: span 2; /* Mengambil 2 kolom */
+button.operator[value="="]:hover {
+    background-color: #218838;
 }
 
-/* Gaya khusus untuk tombol '=' */
-.equal-sign {
-    background-color: #007aff; /* Biru untuk '=' */
-    /* Diubah dari span 2 menjadi span 1 agar sesuai layout */
-    grid-column: span 1;
+button.operator {
+    background-color: #ffc107;
 }
 
-.equal-sign:hover {
-    background-color: #006ee6; /* Biru lebih gelap saat hover */
+button.operator:hover {
+    background-color: #e0a800;
 }
 
-.equal-sign:active {
-    background-color: #005bb3; /* Biru lebih gelap saat ditekan */
-}
-
-/* Gaya untuk tombol desimal */
-.decimal {
-    background-color: #505050; /* Sama dengan tombol angka */
-}
-
-/* Gaya baru untuk tombol kurung */
-.parenthesis {
-    background-color: #505050; /* Sama dengan tombol angka */
-}
-
-.parenthesis:hover {
-    background-color: #6a6a6a;
-}
-
-.parenthesis:active {
-    background-color: #404040;
+.footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    color: #666;
 }
