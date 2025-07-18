@@ -38,6 +38,27 @@ function resetCalculator() {
     updateScreen();
 }
 
+
+// Function to delete the last character of the current input
+function deleteLastCharacter() {
+    if (currentInput === 'Error') {
+        resetCalculator(); // Reset the calculator if the current input is 'Error'
+        return
+    }
+    if (currentInput.length > 1 && currentInput !== '0') {
+        currentInput = currentInput.slice(0, -1); // Remove the last character  
+    } else {
+        currentInput = '0'; // If only one character left, reset to '0'
+    }
+
+    if (currentInput === '-') {
+        currentInput = '0'; // If the input is just a negative sign, reset to '0'
+    }
+}
+
+
+
+
 // Function to handle number input
 function handleNumberInput(number) {
     if (waitingForSecondOperand) {
@@ -130,6 +151,10 @@ calculatorKeys.addEventListener('click', (event) => {
     } else if (target.classList.contains('all-clear')) {
         // Handle all clear button
         resetCalculator();
+    
+    } else if (target.classList.contains('delete')) {
+        // Handle delete button
+        deleteLastCharacter();
     } else {
         // Handle number input
         handleNumberInput(target.value);
@@ -139,6 +164,58 @@ calculatorKeys.addEventListener('click', (event) => {
     updateScreen();
 });
 
+
+// Debouncing setup to prevent rapid key presses
+let keyPressTimeout;
+const debounceTime = 150; // Adjust this value as needed (milliseconds)
+
+document.addEventListener('keydown', (event) => {
+    const key = event.key;
+
+    // Clear any existing timeout
+    clearTimeout(keyPressTimeout);
+
+    // Set a new timeout to execute the key handling after the debounce time
+    keyPressTimeout = setTimeout(() => {
+        switch (key) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                handleNumberInput(key);
+                break;
+            case '.':
+                handleDecimalInput();
+                break;
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+                handleOperatorInput(key);
+                break;
+            case 'Enter':
+            case '=':
+                // Directly call handle operator in this scenario
+                handleOperatorInput('=');
+                break;
+            case 'Backspace':
+                deleteLastCharacter();
+                break;
+            case 'Escape':
+                resetCalculator();
+                break;
+            default:
+                return;
+        }
+        updateScreen(); // Update screen only after the timeout
+    }, debounceTime);
+});
 
 // Initialize the calculator screen
 updateScreen();
