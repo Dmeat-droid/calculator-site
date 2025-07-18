@@ -20,10 +20,7 @@ function performCalculation(firstOperand, secondOperand, operator) {
     if (operator === '-') return firstOperand - secondOperand;
     if (operator === '*') return firstOperand * secondOperand;
     if (operator === '/') {
-        if (secondOperand === 0) {// Check for division by zero
-            alert("Cannot divide by zero");
-            return Error;// Return an error value if the division is by zero
-        }
+        if (secondOperand === 0) return Error; // Return an error value for division by zero
         return firstOperand / secondOperand;
     }
     return secondOperand; // If no operator, return the second operand
@@ -38,13 +35,19 @@ function resetCalculator() {
     updateScreen();
 }
 
+// Function to toggle the sign of the current input
+function handleToggleSign() {
+    if (currentInput === 'Error' || currentInput === '') return;
+    // Don't toggle sign if the input is just '0'
+    if (parseFloat(currentInput) === 0) return;
+
+    currentInput = String(parseFloat(currentInput) * -1);
+}
 
 // Function to delete the last character of the current input
 function deleteLastCharacter() {
-    if (currentInput === 'Error') {
-        resetCalculator(); // Reset the calculator if the current input is 'Error'
-        return
-    }
+    if (currentInput === 'Error') return resetCalculator();
+
     if (currentInput.length > 1 && currentInput !== '0') {
         currentInput = currentInput.slice(0, -1); // Remove the last character  
     } else {
@@ -55,9 +58,6 @@ function deleteLastCharacter() {
         currentInput = '0'; // If the input is just a negative sign, reset to '0'
     }
 }
-
-
-
 
 // Function to handle number input
 function handleNumberInput(number) {
@@ -101,12 +101,14 @@ function handleOperatorInput(nextOperator) {
         
         // Check if the result is an error
         if (result === Error) {
-            currentInput = 'Error';
-            resetCalculator();
+            currentInput = 'Error'; // Set the screen to show 'Error'
+            previousInput = '';
+            operator = null;
+            waitingForSecondOperand = true; // Ready for new input, which will clear 'Error'
             return;
         }
 
-        // If there's no error, update the previous input with the result
+        // If there's no error, update the current input and previous input
         currentInput = String(parseFloat(result.toFixed(7)));
         previousInput = result;
     }
@@ -115,48 +117,48 @@ function handleOperatorInput(nextOperator) {
     operator = nextOperator;
 }
 
+// Function to handle the equals button logic
+function handleEquals() {
+    // Only perform calculation if we have an operator and are not waiting for a second number
+    if (operator && !waitingForSecondOperand) {
+        const inputValue = parseFloat(currentInput);
+        const result = performCalculation(previousInput, inputValue, operator);
+
+        if (result === Error) {
+            currentInput = 'Error'; // Show error on screen
+            previousInput = '';
+            operator = null;
+            waitingForSecondOperand = true; // Set state to expect new number
+        } else {
+            currentInput = String(parseFloat(result.toFixed(7))); // Update screen with result
+            // Reset the calculator state for a new calculation, but keep the result
+            previousInput = '';
+            operator = null;
+            waitingForSecondOperand = false; // Allow operating on the result
+        }
+    }
+}
+
 calculatorKeys.addEventListener('click', (event) => {
     const { target } = event; // Use object destructuring to get the target element
 
     if (!target.matches('button')) return; // Make sure the clicked element is a button
 
     if (target.classList.contains('operator')) {
-        // Handle operator input
         if (target.value === '=') {
-            // If the equals button is clicked, perform the calculation
-            // Only perform when we're not waiting for a second operand
-            if (operator && !waitingForSecondOperand) {
-                const inputValue = parseFloat(currentInput);
-                const result = performCalculation(previousInput, inputValue, operator);
-
-                if (result === Error) {
-                    currentInput = 'Error'; // Show error on screen
-                }else{
-                    currentInput = String(parseFloat(result.toFixed(7))); // Update screen with result
-                }
-
-                // Reset the calculator state after calculation
-                previousInput = '';
-                operator = null;
-                waitingForSecondOperand = false;
-
-            }
+            handleEquals();
         } else {
-            // Handle other operators
             handleOperatorInput(target.value);
         }
     } else if (target.classList.contains('decimal')) {
-        // Handle decimal input
         handleDecimalInput();
     } else if (target.classList.contains('all-clear')) {
-        // Handle all clear button
         resetCalculator();
-    
-    } else if (target.classList.contains('delete')) {
-        // Handle delete button
+    } else if (target.value === 'delete') {
         deleteLastCharacter();
+    } else if (target.value === 'toggle-sign') {
+        handleToggleSign();
     } else {
-        // Handle number input
         handleNumberInput(target.value);
     }
 
@@ -201,8 +203,7 @@ document.addEventListener('keydown', (event) => {
                 break;
             case 'Enter':
             case '=':
-                // Directly call handle operator in this scenario
-                handleOperatorInput('=');
+                handleEquals();
                 break;
             case 'Backspace':
                 deleteLastCharacter();
@@ -232,19 +233,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         body.classList.add('dark-mode');
-        themeToggle.checked = false;
+        themeToggle.checked = false; // Unchecked for dark mode
     } else {
         body.classList.remove('dark-mode');
-        themeToggle.checked = true;
+        themeToggle.checked = true; // Checked for light mode
     }
 });
 
 // Listen for toggle clicks to change the theme and save the preference
 themeToggle.addEventListener('change', () => {
-    if (themeToggle.checked) {
+    if (themeToggle.checked) { // If checked, set to light mode
         body.classList.remove('dark-mode');
         localStorage.setItem('theme', 'light');
-    } else {
+    } else { // If unchecked, set to dark mode
         body.classList.add('dark-mode');
         localStorage.setItem('theme', 'dark');
     }

@@ -30,6 +30,8 @@ html {
     --btn-equals-hover-bg: #218838;
     --btn-text-color: #fff;
     --btn-active-shadow: rgba(0, 0, 0, 0.2);
+    --toggle-sign-bg: #6c757d;
+    --toggle-sign-hover-bg: #5a6268;
 }
 
 body {
@@ -243,6 +245,14 @@ button.operator:hover {
     background-color: var(--btn-operator-hover-bg);
 }
 
+.toggle-sign {
+    background-color: var(--toggle-sign-bg);
+}
+
+.toggle-sign:hover {
+    background-color: var(--toggle-sign-hover-bg);
+}
+
 .footer {
     text-align: center;
     margin-top: 2rem;
@@ -270,6 +280,8 @@ body.dark-mode {
     --btn-equals-hover-bg: #008000;
     --btn-text-color: #e0e0e0;
     --btn-active-shadow: rgba(255, 255, 255, 0.1);
+    --toggle-sign-bg: #555;
+    --toggle-sign-hover-bg: #666;
 }
 
 /* Responsive Design */
