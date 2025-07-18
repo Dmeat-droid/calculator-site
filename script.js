@@ -219,3 +219,33 @@ document.addEventListener('keydown', (event) => {
 
 // Initialize the calculator screen
 updateScreen();
+
+// Theme Switching functionality
+const themeToggle = document.getElementById('theme-toggle-checkbox');
+const body = document.body;
+
+// Set theme based on saved preference or system setting on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    // Check if user has a system preference for dark mode
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        body.classList.add('dark-mode');
+        themeToggle.checked = false;
+    } else {
+        body.classList.remove('dark-mode');
+        themeToggle.checked = true;
+    }
+});
+
+// Listen for toggle clicks to change the theme and save the preference
+themeToggle.addEventListener('change', () => {
+    if (themeToggle.checked) {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    }
+});

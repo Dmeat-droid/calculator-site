@@ -11,12 +11,34 @@ html {
     box-sizing: inherit;
 }
 
+/* --- THEME VARIABLES --- */
+:root {
+    --body-bg: #f4f4f4;
+    --text-color: #333;
+    --calculator-bg: #fff;
+    --calculator-border: #ccc;
+    --display-bg: #fff;
+    --display-text-color: #333;
+    --display-border: #ccc;
+    --btn-default-bg: #007bff;
+    --btn-default-hover-bg: #0056b3;
+    --btn-clear-bg: #dc3545;
+    --btn-clear-hover-bg: #c82333;
+    --btn-operator-bg: #ffc107;
+    --btn-operator-hover-bg: #e0a800;
+    --btn-equals-bg: #28a745;
+    --btn-equals-hover-bg: #218838;
+    --btn-text-color: #fff;
+    --btn-active-shadow: rgba(0, 0, 0, 0.2);
+}
+
 body {
     font-family: 'Noto Sans', sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
-    color: #333;
-    background-color: #f4f4f4;
+    color: var(--text-color);
+    background-color: var(--body-bg);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -35,15 +57,114 @@ body {
     margin: 2rem;
 }
 
+/* From Uiverse.io by JustCode14 */ 
+/* Theme Switch */
+/* The switch - the box around the slider */
+.switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 4em;
+  height: 2.2em;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #2a2a2a;
+  transition: 0.4s;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1.2em;
+  width: 1.2em;
+  border-radius: 20px;
+  left: 0.5em;
+  bottom: 0.5em;
+  transition: 0.4s;
+  transition-timing-function: cubic-bezier(0.81, -0.04, 0.38, 1.5);
+  box-shadow: inset 8px -4px 0px 0px #fff;
+}
+
+.switch input:checked + .slider {
+  background-color: #00a6ff;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(1.8em);
+  box-shadow: inset 15px -4px 0px 15px #ffcf48;
+}
+
+.star {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  width: 5px;
+  transition: all 0.4s;
+  height: 5px;
+}
+
+.star_1 {
+  left: 2.5em;
+  top: 0.5em;
+}
+
+.star_2 {
+  left: 2.2em;
+  top: 1.2em;
+}
+
+.star_3 {
+  left: 3em;
+  top: 0.9em;
+}
+
+.switch input:checked ~ .slider .star {
+  opacity: 0;
+}
+
+.cloud {
+  width: 3.5em;
+  position: absolute;
+  bottom: -1.4em;
+    left: -1.1em;
+  opacity: 0;
+  transition: all 0.4s;
+}
+
+.switch input:checked ~ .slider .cloud {
+  opacity: 1;
+}
+
+/* Main calculator styles */
 .calculator {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--calculator-bg);
+    border: 1px solid var(--calculator-border);
     border-radius: 20px;
     padding: 1rem;
     margin: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
     max-width: 300px;
 }
 
@@ -58,10 +179,14 @@ input[type="text"] {
     width: 100%;
     padding: .7rem;
     font-size: 30px;
+    font-family: inherit;
     text-align: right;
-    border: 2px solid #ccc;
+    border: 2px solid var(--display-border);
     border-radius: 4px;
     height: 50px;
+    background-color: var(--display-bg);
+    color: var(--display-text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .calculator-keys {
@@ -76,46 +201,75 @@ button {
     font-size: 1.6rem;
     border: none;
     border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--btn-default-bg);
+    color: var(--btn-text-color);
     cursor: pointer;
     height: 60px;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: var(--btn-default-hover-bg);
+}
+
+/* Visual feedback for button press */
+button:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 5px var(--btn-active-shadow);
 }
 
 .all-clear {
-    background-color: #dc3545;
+    background-color: var(--btn-clear-bg);
 }
 
 .all-clear:hover {
-    background-color: #c82333;
+    background-color: var(--btn-clear-hover-bg);
 }
 
 button.operator[value="="]{
-    background-color: #28a745;
+    background-color: var(--btn-equals-bg);
     grid-column: span 2; /* Make the equals button span two columns */
 }
 
 button.operator[value="="]:hover {
-    background-color: #218838;
+    background-color: var(--btn-equals-hover-bg);
 }
 
 button.operator {
-    background-color: #ffc107;
+    background-color: var(--btn-operator-bg);
 }
 
 button.operator:hover {
-    background-color: #e0a800;
+    background-color: var(--btn-operator-hover-bg);
 }
 
 .footer {
     text-align: center;
     margin-top: 2rem;
     font-size: 1.4rem;
-    color: #666;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+/* --- DARK MODE --- */
+body.dark-mode {
+    --body-bg: #121212;
+    --text-color: #e0e0e0;
+    --calculator-bg: #1e1e1e;
+    --calculator-border: #444;
+    --display-bg: #222;
+    --display-text-color: #e0e0e0;
+    --display-border: #444;
+    --btn-default-bg: #333;
+    --btn-default-hover-bg: #444;
+    --btn-clear-bg: #8B0000;
+    --btn-clear-hover-bg: #A52A2A;
+    --btn-operator-bg: #FF8C00;
+    --btn-operator-hover-bg: #FFA500;
+    --btn-equals-bg: #006400;
+    --btn-equals-hover-bg: #008000;
+    --btn-text-color: #e0e0e0;
+    --btn-active-shadow: rgba(255, 255, 255, 0.1);
 }
 
 /* Responsive Design */
